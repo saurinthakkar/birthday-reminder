@@ -9,11 +9,18 @@ function App() {
   const [tours, setTours] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const removeTour = (id) => {
+    const newTours = tours.filter((tour) => tour.id !== id);
+    setTours(newTours);
+    //console.log("ID called", newTours);
+  };
+
   let getTourData = async () => {
     try {
       const resp = await fetch(url);
       const data = await resp.json();
       setTours(data);
+      setIsLoading(false);
 
       //console.log(data);
     } catch (error) {
@@ -23,7 +30,6 @@ function App() {
 
   useEffect(() => {
     getTourData();
-    setIsLoading(false);
   }, []);
 
   //console.log("getTourData", );
@@ -36,6 +42,17 @@ function App() {
     );
   }
 
+  if (tours.length === 0) {
+    return (
+      <main className="title">
+        <h2>No tours Left</h2>
+        <button className="btn" onClick={getTourData}>
+          Refresh
+        </button>
+      </main>
+    );
+  }
+
   return (
     <>
       <main>
@@ -44,7 +61,7 @@ function App() {
             <h2>Our Tours</h2>
             <div className="underline"></div>
           </div>
-          <Tours tours={tours} />
+          <Tours tours={tours} removeTour={removeTour} />
         </section>
       </main>
     </>
