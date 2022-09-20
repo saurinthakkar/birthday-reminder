@@ -6,21 +6,45 @@ function App() {
   //let oldresponse = fetch(url);
   //let oldCommit = oldresponse.json();
 
-  let tourData = fetch(url).then((response) => {
-    //console.log(response);
-    return response.json().then((data) => {
-      console.log(data);
-      return data;
-    });
-  });
+  const [tours, setTours] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  console.log("tourData", tourData.json());
+  let getTourData = async () => {
+    try {
+      const resp = await fetch(url);
+      const data = await resp.json();
+      setTours(data);
+
+      //console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getTourData();
+    setIsLoading(false);
+  }, []);
+
+  //console.log("getTourData", );
+
+  if (isLoading) {
+    return (
+      <main>
+        <Loading />
+      </main>
+    );
+  }
 
   return (
     <>
       <main>
         <section>
-          <Tours />
+          <div className="title">
+            <h2>Our Tours</h2>
+            <div className="underline"></div>
+          </div>
+          <Tours tours={tours} />
         </section>
       </main>
     </>
