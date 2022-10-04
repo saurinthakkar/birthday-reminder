@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDoubleRight } from "react-icons/fa";
+import Job from "./Job";
+import ButtonCategory from "./ButtonCategory";
 // ATTENTION!!!!!!!!!!
 // I SWITCHED TO PERMANENT DOMAIN
 const url = "https://course-api.com/react-tabs-project";
@@ -19,8 +21,34 @@ function App() {
     getData();
   }, []);
 
+  let filtercompany = (e) => {
+    console.log("comnpany", e.target.innerHTML);
+  };
+
   console.log(tabData);
-  return <h2>tabs project setup</h2>;
+  return (
+    <>
+      <section className="section">
+        <div className="title">
+          <h2>experience</h2>
+          <div className="underline"></div>
+        </div>
+        <div className="jobs-center">
+          <div className="btn-container">
+            {tabData.map((item) => (
+              <ButtonCategory
+                company={item.company}
+                filtercompany={filtercompany}
+              />
+            ))}
+          </div>
+          {tabData.map((item) => (
+            <Job item={item} />
+          ))}
+        </div>
+      </section>
+    </>
+  );
 }
 
 export default App;
