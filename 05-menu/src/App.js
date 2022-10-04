@@ -4,6 +4,8 @@ import Categories from "./Categories";
 import items from "./data";
 
 function App() {
+  const newCategories = ["all", ...new Set(items.map((item) => item.category))];
+  console.log("newcategories", newCategories);
   const [foodItems, setFoodItems] = useState(items);
   console.log("food", foodItems);
   const checkcategory = (e) => {
@@ -28,36 +30,11 @@ function App() {
           <h2>Hello menu</h2>
           <div className="underline"></div>
         </div>
-        <div className="btn-container">
-          <button
-            type="button"
-            className="filter-btn"
-            onClick={(e) => checkcategory(e)}
-          >
-            all
-          </button>
-          <button
-            type="button"
-            className="filter-btn"
-            onClick={(e) => checkcategory(e)}
-          >
-            breakfast
-          </button>
-          <button
-            type="button"
-            className="filter-btn"
-            onClick={(e) => checkcategory(e)}
-          >
-            lunch
-          </button>
-          <button
-            type="button"
-            className="filter-btn"
-            onClick={(e) => checkcategory(e)}
-          >
-            shakes
-          </button>
-        </div>
+        <Categories
+          newCategories={newCategories}
+          checkcategory={checkcategory}
+        />
+
         <div className="section-center">
           {foodItems.map((item) => (
             <Menu item={item} />
