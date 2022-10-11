@@ -1,16 +1,18 @@
 import React from "react";
 import { FaAngleDoubleRight } from "react-icons/fa";
 
-const Job = ({ item }) => {
-  const { company, dates, duties, id, order, title } = item;
-  //console.log(company, dates, duties, id, order, title);
+const Jobs = ({ tabData, activeIndex }) => {
+  console.log("tree", tabData, activeIndex);
+
+  const { company, dates, duties, id, order, title } = tabData;
+  console.log(company, dates, duties, id, order, title);
   //console.log("items", item);
   return (
     <article className="job-info">
-      <h3>{item.title}</h3>
-      <h4>{item.company}</h4>
-      <p className="job-date">{item.dates}</p>
-      {duties.map((duty) => {
+      <h3>hello</h3>
+      <h4>Hello</h4>
+      {/* <p className="job-date">{dates}</p> */}
+      {/* {duties.map((duty) => {
         return (
           <div className="job-desc">
             <FaAngleDoubleRight />
@@ -18,8 +20,9 @@ const Job = ({ item }) => {
           </div>
         );
       })}
+    </article> */}
     </article>
   );
 };
 
-export default Job;
+export default Jobs;
