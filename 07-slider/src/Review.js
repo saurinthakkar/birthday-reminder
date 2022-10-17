@@ -5,9 +5,9 @@ import { FaQuoteRight } from "react-icons/fa";
 function Review({ people }) {
   //console.log("people", people);
   const [loading, setLoadling] = useState(true);
-  const [contAnimate, setContAnimate] = useState("activeSlide");
-  const [index, setIndex] = useState(0);
-  const { id, image, name, quote, title } = people[index];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  //const { id, image, name, quote, title } = people[activeIndex];
   console.log("peopleData", people);
   const checkNumber = (id) => {
     if (id > people.length - 1) {
@@ -21,42 +21,74 @@ function Review({ people }) {
     //console.log("data", people.length);
   };
   const prevPerson = () => {
-    setContAnimate(() => "lastSlide");
-    setIndex(() => {
-      const newIndex = index - 1;
+    //setContAnimate(() => "lastSlide");
+    setActiveIndex(() => {
+      const newIndex = activeIndex - 1;
       return checkNumber(newIndex);
     });
   };
 
   const nextPerson = () => {
-    setContAnimate(() => "nextSlide");
-    setIndex(() => {
-      const newIndex = index + 1;
+    //setContAnimate(() => "nextSlide");
+    setActiveIndex(() => {
+      const newIndex = activeIndex + 1;
       return checkNumber(newIndex);
     });
   };
   useEffect(() => {
     const timeout = setTimeout(() => {
       nextPerson();
-      prevPerson();
+      //prevPerson();
     }, 3000);
     return () => clearTimeout(timeout);
-  }, [index]);
+  }, [activeIndex]);
+  // const checkAnimate = (index, activeIndex) => {
+  //   //if(index === )
+  //   console.log("*******************", index, activeIndex);
+
+  //   if (index === activeIndex) {
+  //     return "activeSlide";
+  //   } else {
+  //     if (index > activeIndex && activeIndex < index - 2) {
+  //       return "nextSlide";
+  //     } else {
+  //       return "lastSlide";
+  //     }
+  //   }
+  // };
   return (
-    <section>
+    <section className="section">
       <div className="title">
         <h2>
           <span>/</span>reviews
         </h2>
       </div>
       <div className="section-center">
-        <article className={contAnimate}>
-          <img src={image} className="person-img" alt={name} />
-          <h4>{name}</h4>
-          <p className="title">{title}</p>
-          <p className="text">{quote}</p>
-          <FaQuoteRight className="icon" />
-        </article>
+        {people.map((person, personIndex) => {
+          const { id, image, name, title, quote } = person;
+          console.log("*******************", activeIndex, personIndex);
+          let position = "nextSlide";
+          if (activeIndex === personIndex) {
+            position = "activeSlide";
+          }
+          if (
+            personIndex === activeIndex - 1 ||
+            (activeIndex === 0 && personIndex === people.length - 1)
+          ) {
+            position = "lastSlide";
+          }
+
+          return (
+            <article className={position} key={id}>
+              <img src={image} className="person-img" alt={name} />
+              <h4>{name}</h4>
+              <p className="title">{title}</p>
+              <p className="text">{quote}</p>
+              <FaQuoteRight className="icon" />
+            </article>
+          );
+        })}
+
         <button className="prev" onClick={prevPerson}>
           <FiChevronLeft />
         </button>
